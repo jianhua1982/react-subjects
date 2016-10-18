@@ -17,11 +17,14 @@ import { render } from 'react-dom';
 import sortBy from 'sort-by';
 import './styles';
 
+let types_g;
+const allTypes = 'all';
+
 const MenuList = React.createClass({
     render: function() {
         const filterBy = this.props.filterBy;
         const lis = this.props.data.map(function(item) {
-            if(filterBy === '' || filterBy === item.type) {
+            if(filterBy === allTypes || filterBy === item.type) {
                 return <li key={item.id}>{item.name}</li>;
             }
 
@@ -36,7 +39,6 @@ const MenuList = React.createClass({
     }
 });
 
-let types_g;
 
 const MenuSelect = React.createClass({
     //getInitialState: function() {
@@ -46,17 +48,6 @@ const MenuSelect = React.createClass({
     //},
     componentDidMount: function() {
         console.log('MenuSelect... componentDidMount');
-
-        //let types = new Set();
-        ////types.add('all');
-        //for(let item of this.props.data) {
-        //    types.add(item.type);
-        //}
-        //
-        //this.state.types.add(types);
-
-        //debugger
-
     },
     handleChange: function(e) {
         //debugger
@@ -65,26 +56,25 @@ const MenuSelect = React.createClass({
         //    selectDom.getAttribute('types');
         //const filterBy = this.state.types[this.refs.types.selectedIndex];
 
-
         let filterBy = this.refs.selectDom.getAttribute('data-types')[this.refs.selectDom.selectedIndex];
         // tmp solution
         filterBy = Array.from(types_g)[this.refs.selectDom.selectedIndex];
 
         console.log('change for option ' + filterBy);
-        //debugger
 
         this.props.onSelectChange(filterBy);
     },
     render: function() {
 
         let types = new Set();
-        //types.add('all');
+        types.add(allTypes);
         for(let item of this.props.data) {
             types.add(item.type);
         }
 
         let options = new Set(),
             index = 1;
+
         for(let type of types) {
             options.add(<option key={index++} value={type}>{type}</option>);
         }
@@ -101,7 +91,7 @@ const MenuSelect = React.createClass({
 
 const Menu = React.createClass({
     getInitialState: function() {
-        return {type: ''};
+        return {type: allTypes};
     },
     handleSelectChange: function(type){
         this.setState({type: type});
