@@ -56,7 +56,7 @@ const App = React.createClass({
 
         <Form onSubmit={this.handleSubmit}>
           <p>
-            <TextInput name="firstName" placeholder="First Name"/> {' '}
+            <TextInput name="firstName" placeholder="First Name"/> {'   '}
             <TextInput name="lastName" placeholder="Last Name"/>
           </p>
           <p>

@@ -10,8 +10,11 @@ const ContentToggle = React.createClass({
 
   handleClick() {
     this.setState({ isOpen: !this.state.isOpen }, () => {
-      if (this.props.onToggle)
+      if (this.props.onToggle) {
+        debugger
         this.props.onToggle(this.state.isOpen)
+      }
+
     })
   },
 
@@ -22,13 +25,15 @@ const ContentToggle = React.createClass({
       summaryClassName += ' ContentToggle__Summary--is-open'
 
     return (
-      <div {...this.props} className="ContentToggle">
+      <div  {...this.props}  className="ContentToggle">
         <button onClick={this.handleClick} className={summaryClassName}>
           {this.props.summary}
         </button>
+
         <div className="ContentToggle__Details">
           {this.state.isOpen && this.props.children}
         </div>
+
       </div>
     )
   }

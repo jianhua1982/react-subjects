@@ -4,6 +4,8 @@ export function run() {
   const node = document.getElementById('app')
   const html = node.innerHTML
 
+  console.log(html);
+
   assert(!!html.match(/Menu/), 'render title')
   assert(!!html.match(/burrito/), 'render burrito')
   assert(!!html.match(/tacos/), 'render tacos')

@@ -32,6 +32,8 @@ const CheckoutForm = React.createClass({
   },
 
   handleCheckboxChange(event) {
+    console.log('check state = ' + event.target.checked);
+
     this.setState({
       shippingIsBilling: event.target.checked
     })
@@ -63,6 +65,7 @@ const CheckoutForm = React.createClass({
               <label>Billing State: <input
                 type="text"
                 size="3"
+                maxLength="2"
                 defaultValue={billingState}
                 onChange={e => this.setState({ billingState: e.target.value })}
               /></label>
@@ -89,6 +92,7 @@ const CheckoutForm = React.createClass({
               <label>Shipping State: <input
                 type="text"
                 size="2"
+                maxLength="2"
                 value={shippingIsBilling ? billingState : shippingState}
                 disabled={shippingIsBilling}
                 onChange={e => this.setState({ shippingState: e.target.value })}

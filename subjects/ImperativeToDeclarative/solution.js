@@ -76,8 +76,8 @@ const App = React.createClass({
   },
 
   render() {
-    return (
-      <div className="container">
+        return (
+        <div className="container">
         <h1>Let’s make bootstrap modal declarative</h1>
 
         <button
