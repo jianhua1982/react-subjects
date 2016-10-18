@@ -28,7 +28,7 @@ const MenuList = React.createClass({
             return null;
         });
 
-        debugger
+        //debugger
 
         return (
             <ul className="menuList">
@@ -41,17 +41,25 @@ const MenuList = React.createClass({
 const MenuSelect = React.createClass({
     getInitialState: function() {
         return {
-            types: ''
+            types: new Set()
         };
     },
     componentDidMount: function() {
         console.log('MenuSelect... componentDidMount');
-    },
-    handleTextChange: function(e) {
-        this.setState({text: e.target.value});
+
+        let types = new Set();
+        //types.add('all');
+        for(let item of this.props.data) {
+            types.add(item.type);
+        }
+
+        this.state.types.add(types);
+
+        //debugger
+
     },
     handleChange: function(e) {
-        const filterBy = 'english';
+        const filterBy = this.state.types[this.refs.types.selectedIndex];
 
         console.log('change for option ' + filterBy);
         //debugger
@@ -59,15 +67,10 @@ const MenuSelect = React.createClass({
         this.props.onSelectChange(filterBy);
     },
     render: function() {
-        let types = new Set();
-        //types.add('all');
+        let options = new Set(),
+            index = 1;
 
-        for(let item of this.props.data) {
-            types.add(item.type);
-        }
-
-        let options = new Set(), index = 1;
-        for(let type of types) {
+        for(let type of this.state.types) {
             options.add(<option key={index++} value={type}>{type}</option>);
         }
 
