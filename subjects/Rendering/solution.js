@@ -22,8 +22,18 @@ const allTypes = 'all';
 
 const MenuList = React.createClass({
     render: function() {
-        const filterBy = this.props.filterBy;
-        const lis = this.props.data.map(function(item) {
+        let data;
+        //debugger
+        if(this.props.state.sortBy) {
+            //debugger
+            data = JSON.parse(JSON.stringify(this.props.data)).sort(sortBy('name'));
+        }
+        else {
+            data = this.props.data;
+        }
+
+        const filterBy = this.props.state.type;
+        const lis = data.map(function(item) {
             if(filterBy === allTypes || filterBy === item.type) {
                 return <li key={item.id}>{item.name}</li>;
             }
@@ -91,30 +101,70 @@ const MenuSelect = React.createClass({
 
 const Menu = React.createClass({
     getInitialState: function() {
-        return {type: allTypes};
+        return {
+            type: allTypes,
+            sortBy: false
+        };
     },
     handleSelectChange: function(type){
         this.setState({type: type});
     },
+
+    handleCheckboxChange: function(e){
+        this.setState({sortBy: document.getElementsByClassName('checkboxSwitch')[0].getAttribute('value') === 'on'});
+    },
+
     render: function() {
         return (
             <div>
                 <h1>{this.props.data.title} </h1>
 
-                <MenuList data={this.props.data.items} filterBy={this.state.type}>
+                <MenuList data={this.props.data.items} state={this.state} >
                 </MenuList>
 
                 <div>
                     <span>You can filter by</span>
 
                     <MenuSelect data={this.props.data.items} onSelectChange={this.handleSelectChange}>
-
                     </MenuSelect>
+
+                    <div>
+                        <input type="checkbox" className="checkboxSwitch" onClick={this.handleCheckboxChange} />
+                        <span>排序显示</span>
+                    </div>
                 </div>
             </div>
         );
     }
 });
+
+//$("").bind('input',funcytion);
+
+//const MenuList = React.createClass({
+//    render: function() {
+//        let data = this.props.data;
+//        if(this.props.state.sortBy) {
+//            data = sortBy(data);
+//        }
+//
+//        const filterBy = this.props.state.filterBy;
+//        const lis = data.map(function(item) {
+//            if(filterBy === allTypes || filterBy === item.type) {
+//                return <li key={item.id}>{item.name}</li>;
+//            }
+//
+//            return null;
+//        });
+//
+//        return (
+//            <ul className="menuList">
+//                {lis}
+//            </ul>
+//        );
+//    }
+//});
+
+
 
 render(<Menu data={
     {
@@ -126,7 +176,8 @@ render(<Menu data={
         { id: 4, name: 'mushy peas', type: 'english' },
         { id: 5, name: 'fish and chips', type: 'english' },
         { id: 6, name: 'black pudding', type: 'english' },
-        { id: 7, name: 'xiao chao rou', type: 'Chinese' }
+        { id: 7, name: 'xiao chao rou', type: 'Chinese' },
+        { id: 8, name: 'mapo beason', type: 'Chinese' }
       ]
     }
 }  />, document.getElementById('app'), () => {
