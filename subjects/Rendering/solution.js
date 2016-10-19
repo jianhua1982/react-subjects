@@ -17,7 +17,7 @@ import { render } from 'react-dom';
 import sortBy from 'sort-by';
 import './styles';
 
-let types_g;
+//let types_g;
 const allTypes = 'all';
 
 const MenuList = React.createClass({
@@ -59,16 +59,20 @@ const MenuSelect = React.createClass({
     componentDidMount: function() {
         console.log('MenuSelect... componentDidMount');
     },
-    handleChange: function(e) {
+    handleChange: function (...types) {
         //debugger
 
         //let selectDom = this.refs.selectDom,
         //    selectDom.getAttribute('types');
         //const filterBy = this.state.types[this.refs.types.selectedIndex];
 
-        let filterBy = this.refs.selectDom.getAttribute('data-types')[this.refs.selectDom.selectedIndex];
+        //let filterBy = this.refs.selectDom.getAttribute('data-types')[this.refs.selectDom.selectedIndex];
         // tmp solution
-        filterBy = Array.from(types_g)[this.refs.selectDom.selectedIndex];
+        //debugger
+
+        const typesObj = JSON.parse(window.document.getElementsByClassName('menuSelect')[0].getAttribute('data-types'));
+        //const filterBy = Array.from(types_g)[this.refs.selectDom.selectedIndex];
+        const filterBy = typesObj.types[this.refs.selectDom.selectedIndex];
 
         console.log('change for option ' + filterBy);
 
@@ -89,10 +93,10 @@ const MenuSelect = React.createClass({
             options.add(<option key={index++} value={type}>{type}</option>);
         }
 
-        types_g = types;
+        //types_g = types;
 
         return (
-            <select ref="selectDom" className="menuSelect" onChange={this.handleChange} data-types={types}>
+            <select ref="selectDom" className="menuSelect" onChange={this.handleChange} data-types={JSON.stringify({types: Array.from(types)})}>
                 {options}
             </select>
         );
@@ -110,8 +114,8 @@ const Menu = React.createClass({
         this.setState({type: type});
     },
 
-    handleCheckboxChange: function(e){
-        this.setState({sortBy: document.getElementsByClassName('checkboxSwitch')[0].getAttribute('value') === 'on'});
+    handleCheckboxChange: function(event){
+        this.setState({sortBy: event.target.checked});
     },
 
     render: function() {
@@ -163,7 +167,6 @@ const Menu = React.createClass({
 //        );
 //    }
 //});
-
 
 
 render(<Menu data={
