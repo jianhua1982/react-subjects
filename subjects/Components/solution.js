@@ -63,6 +63,10 @@ const Tabs = React.createClass({
     const { data } = this.props
     const { activeTabIndex } = this.state
 
+
+    /*
+        The key point is to define active prop in render method.
+     */
     const tabs = data.map((tab, index) => {
       const isActive = index === activeTabIndex
       const style = isActive ? styles.activeTab : styles.tab
@@ -93,7 +97,7 @@ const Tabs = React.createClass({
 
 const App = React.createClass({
   propTypes: {
-    countries: PropTypes.arrayOf(countryType).isRequired
+    countries: PropTypes.arrayOf(countryType).isReuired
   },
   render() {
     const data = this.props.countries.map(country => ({

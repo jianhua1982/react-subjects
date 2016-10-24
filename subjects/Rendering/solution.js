@@ -142,33 +142,6 @@ const Menu = React.createClass({
     }
 });
 
-//$("").bind('input',funcytion);
-
-//const MenuList = React.createClass({
-//    render: function() {
-//        let data = this.props.data;
-//        if(this.props.state.sortBy) {
-//            data = sortBy(data);
-//        }
-//
-//        const filterBy = this.props.state.filterBy;
-//        const lis = data.map(function(item) {
-//            if(filterBy === allTypes || filterBy === item.type) {
-//                return <li key={item.id}>{item.name}</li>;
-//            }
-//
-//            return null;
-//        });
-//
-//        return (
-//            <ul className="menuList">
-//                {lis}
-//            </ul>
-//        );
-//    }
-//});
-
-
 render(<Menu data={
     {
       title: 'Menu',

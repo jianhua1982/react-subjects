@@ -14,7 +14,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 
-const styles = {}
+const styles = {};
 
 styles.tab = {
   display: 'inline-block',
@@ -23,52 +23,71 @@ styles.tab = {
   borderBottom: '4px solid',
   borderBottomColor: '#ccc',
   cursor: 'pointer'
-}
+};
 
 styles.activeTab = {
   ...styles.tab,
   borderBottomColor: '#000'
-}
+};
 
 styles.panel = {
   padding: 10
-}
+};
 
 const Tabs = React.createClass({
-  render() {
-    return (
-      <div className="Tabs">
-        <div className="Tab" style={styles.activeTab}>
-          Active
-        </div>
-        <div className="Tab" style={styles.tab}>
-          Inactive
-        </div>
-        <div className="TabPanel" style={styles.panel}>
-          Panel
-        </div>
-      </div>
-    )
-  }
-})
+    getInitialState: function() {
+        return {
+            activeIndex: 0
+        };
+    },
+    handleClick:function(activeIndex){
+        this.setState({
+            activeIndex
+        });
+    },
+    render() {
+        const {data} = this.props;
+        const {activeIndex} = this.state;
+
+        const tabs = data.map(function(tab, index) {
+            const tabStyle = (index == activeIndex ? styles.activeTab : styles.tab);
+            return (
+                <div key={tab.name} className="tab" style={tabStyle} >
+                    {tab.name}
+                </div>
+            );
+        });
+
+        const content = data[activeIndex].description;
+
+        return (
+            <div>
+                <div data={this.props.countries}> {tabs} </div>
+                <div style={styles.panel}>
+                    {content}
+                </div>
+            </div>
+        )
+    }
+});
 
 const App = React.createClass({
-  render() {
-    return (
-      <div>
-        <h1>Countries</h1>
-        <Tabs data={this.props.countries}/>
-      </div>
-    )
-  }
-})
+    render() {
+        return (
+          <div>
+            <h1>Countries</h1>
+            <Tabs data={this.props.countries}></Tabs>
+          </div>
+        )
+    }
+});
 
 const DATA = [
   { id: 1, name: 'USA', description: 'Land of the Free, Home of the brave' },
   { id: 2, name: 'Brazil', description: 'Sunshine, beaches, and Carnival' },
   { id: 3, name: 'Russia', description: 'World Cup 2018!' }
-]
+];
 
 render(<App countries={DATA}/>, document.getElementById('app'), function () {
-  require('./tests').run(this)
-})
+  //require('./tests').run(this)
+});
